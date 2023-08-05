@@ -55,12 +55,4 @@ Styled Components for styling
 Contributing
 We welcome contributions from the community! If you find any issues or want to add new features, please follow these steps:
 
-Fork the repository.
-Create a new branch: git checkout -b feature-new-feature.
-Make your changes and commit them: git commit -m 'Add a new feature'.
-Push to the branch: git push origin feature-new-feature.
-Open a pull request, describing the changes you've made.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 Happy adventuring with Adventour! Explore the world, create memories, and make every journey an unforgettable experience. If you have any questions or need assistance, feel free to reach out to us at contact@adventourapp.com.
