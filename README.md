@@ -1,39 +1,44 @@
-# Adventour
-**Adventour** is a modern and user-friendly travel app built with React, designed to help users plan and organize their travel adventures with ease. Whether you're a seasoned globetrotter or a first-time traveler, Adventour has all the features you need to make your journey unforgettable.
+<h1>Adventour</h1> This is a modern and user-friendly travel app built with React, designed to help users plan and organize their travel adventures with ease. Whether you're a seasoned globetrotter or a first-time traveler, Adventour has all the features you need to make your journey unforgettable.
+<br/>
+<br/>
+<b>Live At :</b> https://adventour-e3im-git-booking-monurajputrko.vercel.app/
 
 # Team & Tasks
-Mohd Shamaiel Wani & MD Dilnawaj Alam: Home Page <br/>
+MD Dilnawaj Alam: Home Page <br/>
+Mohd Shamaiel Wani: Explore Page <br/>
 Karan Kotai(Team Leader) : Booking & Listing pages <br/>
 Monu Singh : Checkout page <br/>
 Shiva Verma : Login/Signup pages <br/>
 
 # Features 
-Interactive Map: Explore destinations using an interactive map, pinning points of interest and getting a glimpse of the attractions each location has to offer.
 
-Trip Planning: Plan your trips by creating personalized itineraries. Add activities, set dates, and organize your daily schedule.
+**Adventure Planning:** Plan your adventure trips by creating personalized itineraries. Add activities, set dates, and organize your daily schedule.
 
-Local Guides: Get recommendations from local experts and fellow travelers about hidden gems, must-visit places, and authentic experiences.
+![image](https://github.com/monurajputrko/Adventour/assets/68837552/1e1448ea-b678-4cfa-85c8-473fa517d914)
 
-Weather Forecast: Check the weather forecast for your destination, ensuring you pack appropriately and make the most of your trip.
+**Local Guides:** Get recommendations from local experts and fellow travelers about hidden gems, must-visit places, and authentic experiences.
 
-Reviews and Ratings: Read reviews and ratings from other users to make informed decisions about accommodations, restaurants, and activities.
+![image](https://github.com/monurajputrko/Adventour/assets/68837552/33091aaa-6edf-4be1-a857-0792568f83ef)
 
-User Profiles: Create your profile, showcase your travel experiences, and connect with other like-minded travelers.
+**Interactive Bill & Payment:** Explore destinations using the razor-sharp razor-payment system with booking details your adventure has to offer with all the offers.
 
-Photo Gallery: Share your travel moments and explore photos shared by others who have visited the same destinations.
+![image](https://github.com/monurajputrko/Adventour/assets/68837552/2f2484b7-2a7e-423f-af7e-319fd5457086)
 
-Responsive Design: Adventour is fully responsive, providing a seamless experience across devices, whether you're using a smartphone, tablet, or desktop.
 
-Getting Started Clone the Repository:
+**Photo Gallery:** Share your travel moments and explore photos shared by others who have visited the same destinations.
 
-bash Copy code git clone https://github.com/yourusername/adventour.git cd adventour Install Dependencies:
+![image](https://github.com/monurajputrko/Adventour/assets/68837552/2f037799-4ebb-4f7a-8cb6-b97e1c27158d)
 
-bash Copy code npm install Set Up API Keys: Rename .env.example to .env and add your API keys for maps and weather services.
+**Responsive Design:** Adventour is fully responsive, providing a seamless experience across devices, whether you're using a smartphone, tablet, or desktop.
 
-Run the App:
+![image](https://github.com/monurajputrko/Adventour/assets/68837552/7fce2d62-06e1-4181-bcf1-b027fecb4c88)
 
-bash Copy code npm start Open in Browser: Visit http://localhost:3000 in your browser to start using Adventour.
+Technologies Used React Redux for state management React Router for navigation Mapbox API for interactive maps OpenWeather API for weather forecasts Firebase for user authentication and data storage Chakra & Material Components for styling. We welcome contributions from the community!
 
-Technologies Used React Redux for state management React Router for navigation Mapbox API for interactive maps OpenWeather API for weather forecasts Firebase for user authentication and data storage Styled Components for styling Contributing We welcome contributions from the community! If you find any issues or want to add new features, please follow these steps:
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=react,js,redux,firebase,figma,materialui,tailwind,css,git" />
+  </a>
+</p>
 
 Happy adventuring with Adventour! Explore the world, create memories, and make every journey an unforgettable experience. If you have any questions or need assistance, feel free to reach out to us at contact@adventourapp.com.
