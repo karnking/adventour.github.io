@@ -1,22 +1,50 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Checkbox, CheckboxGroup, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormControl, FormLabel, IconButton, Input, Show, SimpleGrid, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Spacer, Stack, Switch, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
-import { Badge } from 'flowbite-react'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Checkbox, CheckboxGroup, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormControl, FormLabel, IconButton, Input, Radio, RadioGroup, Show, SimpleGrid, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Spacer, Stack, Switch, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
 import { MdGraphicEq } from 'react-icons/md'
-import React from 'react'
+import React, { useState } from 'react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useDispatch } from 'react-redux'
 import { filterHotel } from '../../redux/HotelReducer/action'
+import { useParams } from 'react-router-dom'
 
 const Filters = () => {
-    const [sliderValue, setSliderValue] = React.useState(6999)
+    const [sliderValue, setSliderValue] = React.useState(0)
     const [showTooltip, setShowTooltip] = React.useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
     const dispatch = useDispatch()
-    const handleCheckbox = (e) =>{
-        // switch(e.target.value){
-        //     case ''
-        // }
-        dispatch(filterHotel('price=6000'))
+    const { city } = useParams()
+    const [q,setQ] = useState({});
+    const handleRadio = (val) =>{
+        setQ((lastval)=> {
+            doFilters({...lastval,feature:val})
+            return {...lastval,feature:val}
+        })
+    }
+    const handleSwitch = (e) =>{
+        setQ((lastVal)=>{
+            doFilters({...lastVal,assured:e.target.checked})
+            return {...lastVal,assured:e.target.checked}
+        })
+    }
+    const handleRating = (e) =>{
+        setQ((lastVal)=>{
+            doFilters({...lastVal,stars:e.target.value})
+            return {...lastVal,stars:e.target.value}
+        })
+    }
+    const changeSlider = (v) =>{
+        setSliderValue(v)
+        setQ((lastVal)=>{
+            doFilters({...lastVal,price:v})
+            return {...lastVal,price:v}
+        })
+    }
+    let timeout;
+    const doFilters = (query) => {
+        if(timeout) clearTimeout(timeout)
+        timeout = setTimeout(()=>{
+            dispatch(filterHotel(city,query))
+        },1000)
     }
     return <>
         <Show breakpoint='(max-width: 995px)'>
@@ -42,14 +70,14 @@ const Filters = () => {
                                     <AccordionIcon />
                                 </AccordionButton>
                                 <AccordionPanel pb={4} bg="#f8fffe" borderRadius={"0 0 5px 5px"} color="black">
-                                    <CheckboxGroup colorScheme='green' defaultValue={['naruto', 'kakashi']}>
+                                    <RadioGroup colorScheme='green' onChange={handleRadio} value={q.feature} >
                                         <Stack spacing={[1, 2]} direction={['row', 'column']}>
-                                            <Checkbox value='free' fontSize={"10px"}>Free Cancellation Available</Checkbox>
-                                            <Checkbox value='book1' >Book @1</Checkbox>
-                                            <Checkbox value='pay_at_hotel'>Pay at Hotel Available</Checkbox>
-                                            <Checkbox value='free_break'>Free Breakfast Included</Checkbox>
+                                            <Radio value='free' fontSize={"10px"}>Free Cancellation Available</Radio>
+                                            <Radio value='book1'>Book @1</Radio>
+                                            <Radio value='pay_at_hotel'>Pay at Hotel Available</Radio>
+                                            <Radio value='free_break'>Free Breakfast Included</Radio>
                                         </Stack>
-                                    </CheckboxGroup>
+                                    </RadioGroup>
                                 </AccordionPanel>
                             </AccordionItem>
 
@@ -65,11 +93,11 @@ const Filters = () => {
                                 <AccordionPanel pb={10} bg="#f8fffe" borderRadius={"0 0 5px 5px"} color="black">
                                     <Slider
                                         id='slider'
-                                        defaultValue={10000}
+                                        defaultValue={0}
                                         min={0}
                                         max={50000}
                                         colorScheme='teal'
-                                        onChange={(v) => setSliderValue(v)}
+                                        onChange={changeSlider}
                                         onMouseEnter={() => setShowTooltip(true)}
                                         onMouseLeave={() => setShowTooltip(false)}
                                     >
@@ -111,16 +139,16 @@ const Filters = () => {
                                 <AccordionPanel pb={4} bg="#f8fffe" borderRadius={"0 0 5px 5px"} color="black">
                                     <CheckboxGroup colorScheme='green' defaultValue={['naruto', 'kakashi']}>
                                         <SimpleGrid columns="1" gap="10px">
-                                            <Checkbox value='4.5' fontSize={"10px"}>
+                                            <Checkbox value='4.5' fontSize={"10px"} onChange={handleRating}>
                                                 <Text py="1px" fontSize="14px" bg="green" color="white" px="10px" >4.5+</Text>
                                             </Checkbox>
-                                            <Checkbox value='4' >
+                                            <Checkbox value='4' onChange={handleRating}>
                                                 <Text bg="teal.500" fontSize="14px" color="white" px="10px" py="1px">4+</Text>
                                             </Checkbox>
-                                            <Checkbox value='3.5'>
+                                            <Checkbox value='3.5' onChange={handleRating}>
                                                 <Text py="1px" fontSize="14px" bg="green.300" color="white" px="10px">3.5+</Text>
                                             </Checkbox>
-                                            <Checkbox value='3'>
+                                            <Checkbox value='3' onChange={handleRating}>
                                                 <Text py="1px" fontSize="14px" bg="orange" color="white" px="10px" >3+</Text>
                                             </Checkbox>
                                         </SimpleGrid>
@@ -129,7 +157,7 @@ const Filters = () => {
                                         <FormLabel htmlFor='email-alerts' mb='0' fontSize={"14px"} fontWeight={400} color="teal">
                                             Adventour Assured :
                                         </FormLabel>
-                                        <Switch id='assured' size="sm" colorScheme='teal' />
+                                        <Switch id='assured' size="sm" colorScheme='teal' onChange={handleSwitch} />
                                     </FormControl>
                                 </AccordionPanel>
                             </AccordionItem>
@@ -140,7 +168,7 @@ const Filters = () => {
             </Drawer>
         </Show>
         <Show breakpoint='(min-width: 996px)'>
-            <Flex w="22vw" p="2% 0" mt="10px" h="94vh" borderRadius="10px" bg="cyan.100" color="white" position="fixed" z-index="20" >
+            <Flex w="22vw" p="2% 0" mt="10px" h="85vh" borderRadius="10px" bg="cyan.100" color="white" position="fixed" z-index="20" >
                 <Accordion w="100%" allowToggle defaultIndex={0}>
                     <AccordionItem >
                         <AccordionButton _hover={{}} borderRadius="0" className="animate-border inline-block rounded-md text-white bg-white bg-gradient-to-r from-cyan-500 via-teal-200 to-cyan-500 bg-[length:400%_400%] p-0.5">
@@ -159,14 +187,14 @@ const Filters = () => {
                                         <AccordionIcon />
                                     </AccordionButton>
                                     <AccordionPanel pb={4} bg="#f8fffe" borderRadius={"0 0 5px 5px"} color="black">
-                                        <CheckboxGroup colorScheme='green' defaultValue={['naruto', 'kakashi']}>
+                                        <RadioGroup colorScheme='green' onChange={handleRadio} value={q.feature}>
                                             <Stack spacing={[1, 2]} direction={['row', 'column']}>
-                                                <Checkbox value='free' fontSize={"10px"} name="popular" onChange={handleCheckbox}>Free Cancellation Available</Checkbox>
-                                                <Checkbox value='book1' name="popular" onChange={handleCheckbox}>Book @1</Checkbox>
-                                                <Checkbox value='pay_at_hotel' name="popular" onChange={handleCheckbox}>Pay at Hotel Available</Checkbox>
-                                                <Checkbox value='free_break' name="popular">Free Breakfast Included</Checkbox>
+                                                <Radio value='free' fontSize={"10px"} name="popular">Free Cancellation Available</Radio>
+                                                <Radio value='book1' name="popular">Book @1</Radio>
+                                                <Radio value='pay_at_hotel' name="popular">Pay at Hotel Available</Radio>
+                                                <Radio value='free_break' name="popular">Free Breakfast Included</Radio>
                                             </Stack>
-                                        </CheckboxGroup>
+                                        </RadioGroup>
                                     </AccordionPanel>
                                 </AccordionItem>
 
@@ -182,11 +210,11 @@ const Filters = () => {
                                     <AccordionPanel pb={10} bg="#f8fffe" borderRadius={"0 0 5px 5px"} color="black">
                                         <Slider
                                             id='slider'
-                                            defaultValue={10000}
+                                            defaultValue={0}
                                             min={0}
                                             max={50000}
                                             colorScheme='teal'
-                                            onChange={(v) => setSliderValue(v)}
+                                            onChange={changeSlider}
                                             onMouseEnter={() => setShowTooltip(true)}
                                             onMouseLeave={() => setShowTooltip(false)}
                                         >
@@ -228,25 +256,25 @@ const Filters = () => {
                                     <AccordionPanel pb={4} bg="#f8fffe" borderRadius={"0 0 5px 5px"} color="black">
                                         <CheckboxGroup colorScheme='green' defaultValue={['naruto', 'kakashi']}>
                                             <SimpleGrid columns="1" gap="10px">
-                                                <Checkbox value='4.5' fontSize={"10px"}>
+                                                <Checkbox value='4.5' fontSize={"10px"} onChange={handleRating}>
                                                     <Text py="1px" fontSize="14px" bg="green" color="white" px="10px" >4.5+</Text>
                                                 </Checkbox>
-                                                <Checkbox value='4' >
+                                                <Checkbox value='4' onChange={handleRating}>
                                                     <Text bg="teal.500" fontSize="14px" color="white" px="10px" py="1px">4+</Text>
                                                 </Checkbox>
-                                                <Checkbox value='3.5'>
+                                                <Checkbox value='3.5' onChange={handleRating}>
                                                     <Text py="1px" fontSize="14px" bg="green.300" color="white" px="10px">3.5+</Text>
                                                 </Checkbox>
-                                                <Checkbox value='3'>
+                                                <Checkbox value='3' onChange={handleRating}>
                                                     <Text py="1px" fontSize="14px" bg="orange" color="white" px="10px" >3+</Text>
                                                 </Checkbox>
                                             </SimpleGrid>
                                         </CheckboxGroup>
                                         <FormControl display='flex' alignItems='center' mt="5px">
-                                            <FormLabel htmlFor='email-alerts' mb='0' fontSize={"14px"} fontWeight={400} color="teal">
-                                                Adventour Assured :
+                                            <FormLabel htmlFor='email-alerts' mb='0' fontSize={"14px"} fontWeight={600} color="teal">
+                                                Adventour Certified :
                                             </FormLabel>
-                                            <Switch id='assured' size="sm" colorScheme='teal' />
+                                            <Switch id='assured' size="sm" colorScheme='teal' value onChange={handleSwitch}/>
                                         </FormControl>
                                     </AccordionPanel>
                                 </AccordionItem>

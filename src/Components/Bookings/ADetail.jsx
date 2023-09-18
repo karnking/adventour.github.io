@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Divider, Flex, HStack, Heading, IconButton, Image, SimpleGrid, Spacer, Tag, Text, useToast } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Divider, Flex, HStack, Heading, IconButton, Image, SimpleGrid, Spacer, Tag, Text, useToast } from '@chakra-ui/react'
 import { AiOutlineHeart, AiOutlineFieldTime, AiFillHeart } from "react-icons/ai";
 import { RiFileCopy2Line } from "react-icons/ri";
 import { MdGroup, MdStar, MdVerified } from "react-icons/md";
-import { BiLeftArrow, BiRightArrow, BiShieldQuarter, BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import { BiShieldQuarter, BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { MdOutlineTipsAndUpdates, MdOutlineVerified } from "react-icons/md";
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from "react-icons/ai";
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdventure } from '../../redux/AdventureReducer/action';
+import { addAdventure, getAdventure } from '../../redux/AdventureReducer/action';
 import { Rating } from 'flowbite-react';
 import { FaClipboardList } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
 import Loader from '../Utils/Loader';
+import { PhoneIcon, AddIcon, WarningIcon, ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
+
 export const ADetail = () => {
     const dispatch = useDispatch()
     const { idx } = useParams()
-    const theme = useSelector(state => state.theme);
+    console.log(idx)
+    const Id = parseInt(idx)
+    const navigate = useNavigate()
+    const theme = useSelector(state => state);
+    console.log(theme)
     const adventures = useSelector(state => state.adventures.adventures[idx - 1])
+    console.log(adventures)
     const toast = useToast()
     const [val, setval] = useState(-10);
     const [wish, setwish] = useState(false)
     const isLoading = useSelector(store => store.adventures.isLoading)
-    const navigate = useNavigate()
+    const handleAdd = () => {
+        console.log(addAdventure(adventures))
+        dispatch(addAdventure(adventures))
+    }
     const handleNav = (step) => {
         console.log(idx)
         if((step==-1 && idx>1) || (step==1 && idx<8)) navigate(`/adventure/${Number(idx)+Number(step)}`)
@@ -34,11 +44,13 @@ export const ADetail = () => {
         });
     }, [])
     if (isLoading) return <Loader />
+
     return (
         <Flex bgColor={theme === "dark" ? '#101214' : '#fbfbfb'} mb={{ base: "2em" }}>
             {/* <Toggle  /> */}
             {/* <Detailnav/> */}
-            <Flex cursor={'pointer'} onClick={()=>handleNav(-1)} alignItems={'center'} justify={'center'} bg='linear-gradient(90deg, rgba(0,0,0,0.3408613445378151) 100%, rgba(0,0,0,0.6223739495798319) 0%)' h='100vh' w='45px' position='fixed'><BiSolidLeftArrow color='#fff' size='md' boxSize='30'/></Flex>
+
+            <Flex cursor={'pointer'} top='0' onClick={()=>handleNav(-1)} alignItems={'center'} justify={'center'} bg='linear-gradient(90deg, rgba(0,0,0,0.3408613445378151) 100%, rgba(0,0,0,0.6223739495798319) 0%)' h='100vh' w='45px' position='fixed'><BiSolidLeftArrow color='#fff' size='md' boxSize='30'/></Flex>
             <Box>
                 <Image src={adventures?.main_image} boxShadow={'md'} width={{ base: '100vw' }} h={{ base: '350px', lg: "500px" }} />
                 <Box m={'auto'} pt={'20px'} w={{ base: '90vw', md: '76vw', lg: '76vw' }} bg="white" color={theme === "dark" ? 'white' : 'blackAlpha.800'}>
@@ -65,7 +77,7 @@ export const ADetail = () => {
                             <Box>
 
                                 <SimpleGrid templateColumns='repeat(2, 1fr)' gap={1}>
-                                    <Text><strong>Tour Operator:</strong><br />Dubai Emirates Co.</Text>
+                                    <Text><strong>Tour Operator:</strong><br />{adventures?.tour_operator}</Text>
                                     <Text><strong>Max group size:</strong><br />{adventures?.group_size}</Text>
                                     <Text><strong>Age range:</strong><br />{adventures?.age_range} yrs</Text>
                                     <Text><strong>Operated in:</strong><br />English</Text>
@@ -111,7 +123,7 @@ export const ADetail = () => {
                                 <Text w={{ base: '100%', md: '100%', lg: '300px' }} textAlign={'left'} fontSize='4xl' fontWeight={'700'}>₹{(adventures?.act_price['$numberDecimal'])?.toLocaleString("en-US")}</Text>
                                 <Text w={{ base: '100%', md: '100%', lg: '300px' }} textAlign={'left'} fontSize='sm' fontWeight={'500'}>per person</Text>
                                 <Flex mb={'20px'} w={{ base: '100%', md: '100%', lg: '300px' }} alignItems={'center'} pt={'10px'} pb={'10px'}>
-                                    <Link><Button fontSize={'16px'} h={'45px'} w={'230px'} colorScheme='none' fontWeight={'700'} bg={theme === "dark" ? "#3DC6EF" : "cyan.200"} color={'white'} borderRadius={'5px'}>Add to Bookings</Button></Link>
+                                    <Link to={`/booking/${adventures?.destination}`}><Button fontSize={'16px'} h={'45px'} w={'230px'} colorScheme='none' fontWeight={'700'} bg={theme === "dark" ? "#3DC6EF" : "cyan.200"} onClick={handleAdd} color={'white'} borderRadius={'5px'}>Add to Bookings</Button></Link>
                                     <Spacer />
                                     <IconButton display={{ base: "none", sm: "inline-flex" }} onClick={() => {
                                         if (!wish) {
@@ -158,7 +170,7 @@ export const ADetail = () => {
                             </Flex>
                         </Flex>
                         <Spacer />
-                        <Box w={{base:'100%',lg:'50%'}}>
+                        <Box w={{ base: '100%', lg: '50%' }}>
                             <iframe title="map" width={'100%'} height="250" style={{ backgroundColor: "white" }} frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src={`https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(adventures?.places_see_name + "," + adventures?.destination)}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}>
                                 <a href="https://www.maps.ie/population/">Find Population on Map</a>
                             </iframe>
@@ -244,7 +256,7 @@ export const ADetail = () => {
                     </Flex>
                 </Box>
             </Box>
-            <Flex cursor={'pointer'} onClick={()=>handleNav(1)} alignItems={'center'} justify={'center'} bg='linear-gradient(90deg, rgba(0,0,0,0.3408613445378151) 100%, rgba(0,0,0,0.6223739495798319) 0%)' h='100vh' w='45px' position='fixed' right='0'><BiSolidRightArrow boxSize='50' size='lg' color='#fff' /></Flex>
+            <Flex cursor={'pointer'} top='0' onClick={()=>handleNav(1)} alignItems={'center'} justify={'center'} bg='linear-gradient(90deg, rgba(0,0,0,0.3408613445378151) 100%, rgba(0,0,0,0.6223739495798319) 0%)' h='100vh' w='45px' position='fixed' right='0'><BiSolidRightArrow boxSize='50' size='lg' color='#fff' /></Flex>
         </Flex>
     )
 }

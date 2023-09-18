@@ -1,16 +1,15 @@
-import { ThemeProvider, createTheme as createMuiTheme } from "@mui/material"
-import Allroutes from "./HomePage/Allroutes"
-// import ScrollToTop from "react-scroll-to-top";
-// import backtoTop from "./images/back-to-top.png"
-export const muiTheme = createMuiTheme();
-
+import ScrollToTop from "react-scroll-to-top";
+import backtoTop from "./images/up-arrow.png"
+import Allroutes from "./Components//HomePage/Allroutes"
+import Navbar from "./Components/Utils/Navbar";
+import Footer from "./Components/Utils/Footer";
 export const App = () => {
 
   return <div className="app">
-    <ThemeProvider theme={muiTheme}>
-      {/* <Navbar/> */}
-    </ThemeProvider>
+    <Navbar />
     <Allroutes/>
-    {/* <ScrollToTop smooth top="20" component={<img src={backtoTop} alt='btt'></img>}/> */}
+    <Footer />
+    <ScrollToTop smooth={true} top="20" style={{backgroundColor:'transparent',boxShadow:'none'}} component={<img src={backtoTop} style={{mixBlendMode:'multiply'}} alt='btt'></img>}/>
   </div>
 }
+

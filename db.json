@@ -3,7 +3,6 @@
     {
       "id": 1,
       "main_img": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d0/a5/47/deluxe-room.jpg?w=1100&h=-1&s=1",
-      "secImg": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/35/4b/76/always-hotel-riverview.jpg?w=1200&h=-1&s=1",
       "places_see_img" : [
         "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/35/4b/76/always-hotel-riverview.jpg?w=1200&h=-1&s=1",
         "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/35/5c/09/always-hotel-riverview.jpg?w=700&h=-1&s=1",
@@ -944,5 +943,9 @@
       ]
     }
   ],
+
+  
+
+
   "cart": []
 }

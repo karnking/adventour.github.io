@@ -7,14 +7,16 @@ import { Button, Flex, Grid } from '@chakra-ui/react'
 import Filters from './Filters'
 import { slice } from 'lodash'
 import Error from '../Utils/Error'
+import { useParams } from 'react-router-dom'
 
 const HotelGrid = () => {
     const dispatch = useDispatch()
     const isSkeleton = useSelector(store => store.hotels.isSkeleton)
+    const { city } = useParams()
     const hotels = useSelector(store => store.hotels.hotels) || []
     const isLoading = useSelector(store => store.hotels.isLoading)
     const [isCompleted, setIsCompleted] = useState(false)
-    const [index, setIndex] = useState(3)
+    const [index, setIndex] = useState(4)
     const initialHotels = slice(hotels, 0, index)
     const loadMore = () => {
         setIndex(index + 3)
@@ -25,11 +27,11 @@ const HotelGrid = () => {
         }
     }
     useEffect(() => {
-        dispatch(getHotel())
+        dispatch(getHotel(city))
     }, [])
     if (isLoading) return <Loader />
     return <>
-        <Flex mx="20px" w={{ base: "98vw", lg: "80vw" }} m="auto" mt="25px" flexDirection={{ base: "column", lg: "row" }}>
+        <Flex mx="20px" w={{ base: "98vw", lg: "80vw" }} m="auto" mt="100px" flexDirection={{ base: "column", lg: "row" }}>
             <Filters />
             {
                 initialHotels.length === 0 ? <Error /> :
@@ -41,7 +43,7 @@ const HotelGrid = () => {
             }
         </Flex>
         {initialHotels.length > 0 &&
-            <Flex textAlign={'center'} justifyContent={'center'} ml='10vw'>
+            <Flex textAlign={'center'} justifyContent={'center'} ml={{base:'1vw',lg:'10vw'}} mb={{base:'2vh'}}>
                 {isCompleted ? (
                     <Button onClick={loadMore} class="animate-border text-white px-6 py-2 inline-block rounded-md bg-white bg-gradient-to-r from-cyan-200 via-cyan-500 to-cyan-200 bg-[length:400%_400%] p-0.5">
                         That's It
