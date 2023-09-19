@@ -13,29 +13,23 @@ import { Rating } from 'flowbite-react';
 import { FaClipboardList } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
 import Loader from '../Utils/Loader';
-import { PhoneIcon, AddIcon, WarningIcon, ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
+import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
 
 export const ADetail = () => {
     const dispatch = useDispatch()
     const { idx } = useParams()
-    console.log(idx)
-    const Id = parseInt(idx)
     const navigate = useNavigate()
-    const theme = useSelector(state => state);
-    console.log(theme)
+    const theme = useSelector(state=>state.theme)
     const adventures = useSelector(state => state.adventures.adventures[idx - 1])
-    console.log(adventures)
     const toast = useToast()
     const [val, setval] = useState(-10);
     const [wish, setwish] = useState(false)
     const isLoading = useSelector(store => store.adventures.isLoading)
     const handleAdd = () => {
-        console.log(addAdventure(adventures))
         dispatch(addAdventure(adventures))
     }
     const handleNav = (step) => {
-        console.log(idx)
-        if((step==-1 && idx>1) || (step==1 && idx<8)) navigate(`/adventure/${Number(idx)+Number(step)}`)
+        if ((step == -1 && idx > 1) || (step == 1 && idx < 8)) navigate(`/adventure/${Number(idx) + Number(step)}`)
     }
     useEffect(() => {
         dispatch(getAdventure())
@@ -47,18 +41,19 @@ export const ADetail = () => {
 
     return (
         <Flex bgColor={theme === "dark" ? '#101214' : '#fbfbfb'} mb={{ base: "2em" }}>
-            {/* <Toggle  /> */}
-            {/* <Detailnav/> */}
-
-            <Flex cursor={'pointer'} top='0' onClick={()=>handleNav(-1)} alignItems={'center'} justify={'center'} bg='linear-gradient(90deg, rgba(0,0,0,0.3408613445378151) 100%, rgba(0,0,0,0.6223739495798319) 0%)' h='100vh' w='45px' position='fixed'><BiSolidLeftArrow color='#fff' size='md' boxSize='30'/></Flex>
-            <Box>
+            <Box mt='4em'>
                 <Image src={adventures?.main_image} boxShadow={'md'} width={{ base: '100vw' }} h={{ base: '350px', lg: "500px" }} />
+
+                <ButtonGroup gap='4'>
+                    <Button onClick={()=>handleNav(-1)} top="23vh" h='30vh' left="0" position="absolute" colorScheme='blackAlpha' bg='rgb(0,0,0,0.4)' w='2%'>  <ArrowLeftIcon boxSize={6} color={'white'} />  </Button>
+                    <Button onClick={()=>handleNav(1)} top="23vh" h="30vh" right="0" position="absolute" colorScheme='blackAlpha' bg='rgb(0,0,0,0.4)' w='2%'> <ArrowRightIcon boxSize={6} color={'white'} /> </Button>
+                </ButtonGroup>
                 <Box m={'auto'} pt={'20px'} w={{ base: '90vw', md: '76vw', lg: '76vw' }} bg="white" color={theme === "dark" ? 'white' : 'blackAlpha.800'}>
 
 
                     <Flex flexDirection={{ base: 'column', md: 'column', lg: 'row' }} bg="white" p="2% 10px" >
                         <Box textAlign={'left'} pl={'40px'} w={{ base: '90%', md: '70%', lg: '38%' }}>
-                            <Heading size='lg' pb={'15px'}>{adventures?.title}</Heading>
+                            <h2 style={{fontSize:'1.9em',fontWeight:'bold'}}>{adventures?.title}</h2>
                             <Text as="div" pb={'10px'}>
                                 <strong> Duration : {adventures?.tour_length} • {adventures?.rating['$numberDecimal']} stars</strong>
                                 <Rating>
@@ -71,7 +66,7 @@ export const ADetail = () => {
                             <Text pb={'15px'}>From <strong>Persian Gulf</strong> to <strong>Jumeirah Beach</strong></Text>
                             <Box w={'80%'} mb={'15px'}>
                                 {adventures?.travel_style?.map((style, idx) => {
-                                    return <Tag key={idx} mr={'10px'} mb="15px" pb="5px" color={theme === "dark" ? 'blackAlpha.800' : 'whiteAlpha.900'} bg='cyan.300'>{style}</Tag>
+                                    return <Tag key={idx} mr={'10px'} mb="15px" p="5px" borderRadius={'5px'} color={theme === "dark" ? 'blackAlpha.800' : 'whiteAlpha.900'} bg='cyan.300'>{style}</Tag>
                                 })}
                             </Box>
                             <Box>
@@ -256,7 +251,7 @@ export const ADetail = () => {
                     </Flex>
                 </Box>
             </Box>
-            <Flex cursor={'pointer'} top='0' onClick={()=>handleNav(1)} alignItems={'center'} justify={'center'} bg='linear-gradient(90deg, rgba(0,0,0,0.3408613445378151) 100%, rgba(0,0,0,0.6223739495798319) 0%)' h='100vh' w='45px' position='fixed' right='0'><BiSolidRightArrow boxSize='50' size='lg' color='#fff' /></Flex>
+
         </Flex>
     )
 }

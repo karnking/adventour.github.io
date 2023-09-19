@@ -8,14 +8,14 @@ import { Link, redirect, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Rating } from 'flowbite-react';
 import Loader from '../Utils/Loader';
-import { addHotel, getHotel } from '../../redux/HotelReducer/action';
+import { addHotel, getHotel, getHotelDetail } from '../../redux/HotelReducer/action';
 import SecondaryNav from './SecondaryNav';
 
 export const HDetail = () => {
     const dispatch = useDispatch()
     const { city, idx } = useParams()
     const theme = useSelector(state => state.theme);
-    const hotels = useSelector(state => state.hotels.hotels[(idx%5 - 1)])
+    const hotels = useSelector(state => state.hotels.hotels)
     const toast = useToast()
     const [val, setval] = useState(-10);
     const [wish, setwish] = useState(false)
@@ -23,8 +23,9 @@ export const HDetail = () => {
     const addToBooking = () =>{
         dispatch(addHotel(hotels))
     }
+    console.log(hotels)
     useEffect(() => {
-        dispatch(getHotel(city))
+        dispatch(getHotelDetail(city,idx))
         window.scrollTo({
             top: 0,
         });
@@ -35,17 +36,16 @@ export const HDetail = () => {
             <SecondaryNav />
             <Button onClick={addToBooking} >Click</Button>
             <Box mb={{ base: "2em" }} mt='2em'>
-                <Box m={'auto'} mt="20px" w={{ base: '100vw', lg: '76vw' }} bg="white" color={theme === "dark" ? 'white' : 'blackAlpha.800'} boxShadow='rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px'>
                     <Image src={hotels?.main_img} boxShadow={'md'} width={{ base: '100%' }} h={{ base: '300px', lg: "500px" }} />
-
+                <Box m={'auto'} mt="20px" w={{ base: '100vw', lg: '76vw' }} bg="white" color={theme === "dark" ? 'white' : 'blackAlpha.800'} boxShadow='rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px'>
 
                     <Flex flexDirection={{ base: 'column', md: 'column', lg: 'row' }} bg="white" p="2% 10px" >
                         <Box textAlign={'left'} pl={'40px'} w={{ base: '90%', md: '70%', lg: '38%' }}>
                             <Heading size='lg' pb={'15px'}>{hotels?.title}</Heading>
                             <Text as="div" pb={'10px'}>
-                                <strong> {hotels?.stars} stars</strong>
+                                <strong> {hotels?.stars['$numberDecimal']} stars</strong>
                                 <Rating>
-                                    {[...Array(Math.round(hotels?.stars) || 3)].map((i, idx) => {
+                                    {[...Array(Math.round(hotels?.stars['$numberDecimal']) || 3)].map((i, idx) => {
                                         return <Rating.Star key={"i" + idx} />
                                     })}
                                     ({hotels?.reviews} reviews)

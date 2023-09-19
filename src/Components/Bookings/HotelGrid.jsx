@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom'
 const HotelGrid = () => {
     const dispatch = useDispatch()
     const isSkeleton = useSelector(store => store.hotels.isSkeleton)
-    const { city } = useParams()
+    const { city } = useParams() || ''
     const hotels = useSelector(store => store.hotels.hotels) || []
     const isLoading = useSelector(store => store.hotels.isLoading)
     const [isCompleted, setIsCompleted] = useState(false)
@@ -27,7 +27,7 @@ const HotelGrid = () => {
         }
     }
     useEffect(() => {
-        dispatch(getHotel(city))
+        city!=='' ? dispatch(getHotel(city)) : dispatch(getHotel())
     }, [])
     if (isLoading) return <Loader />
     return <>

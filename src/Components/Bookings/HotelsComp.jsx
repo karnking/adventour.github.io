@@ -8,7 +8,7 @@ import Imag from '../../images/tripadvisor.png'
 import Imag1 from '../../images/money.png'
 import { AiFillCheckCircle, AiFillCloseCircle, AiFillHeart, AiOutlineCaretLeft, AiOutlineCaretRight, AiOutlineHeart } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
-const HotelsComp = ({ price, id, main_img, title, description, assured, address, city, stars, reviews, places_see_img }) => {
+const HotelsComp = ({ price, _id, main_img, title, description, assured, address, city, stars, reviews, places_see_img }) => {
   const [show, setShow] = useState(false)
   const [showImg, setShowImg] = useState(main_img)
   const [val, setval] = useState(0);
@@ -23,10 +23,7 @@ const HotelsComp = ({ price, id, main_img, title, description, assured, address,
   }
   const navigate = useNavigate()
   const goToDetails = () => {
-    navigate(`/booking/${city}/${id}`);
-  }
-  const goToMap = () => {
-
+    navigate(`/booking/${city}/${_id}`);
   }
   const addToWish = (e) => {
     e.stopPropagation()

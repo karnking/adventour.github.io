@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import * as C from '@chakra-ui/react'
 import SecondaryNav from './SecondaryNav'
 import HotelGrid from './HotelGrid'
+import { Flex } from '@chakra-ui/react'
 const Booking = () => {
   return (
-    <C.Flex flexDirection={'column'}>
+    <Flex flexDirection={'column'} flex={1}>
       <SecondaryNav />
       <HotelGrid />
-    </C.Flex>
+    </Flex>
   )
 }
 

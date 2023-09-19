@@ -168,7 +168,7 @@ const Filters = () => {
             </Drawer>
         </Show>
         <Show breakpoint='(min-width: 996px)'>
-            <Flex w="22vw" p="2% 0" mt="10px" h="85vh" borderRadius="10px" bg="cyan.100" color="white" position="fixed" z-index="20" >
+            <Flex w="22vw" p="2% 0" mt="10px" h="100vh" borderRadius="10px" bg="cyan.100" color="white" position="absolute" z-index="20" >
                 <Accordion w="100%" allowToggle defaultIndex={0}>
                     <AccordionItem >
                         <AccordionButton _hover={{}} borderRadius="0" className="animate-border inline-block rounded-md text-white bg-white bg-gradient-to-r from-cyan-500 via-teal-200 to-cyan-500 bg-[length:400%_400%] p-0.5">

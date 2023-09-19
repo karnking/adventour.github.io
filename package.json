@@ -11,8 +11,8 @@
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
-    "@mui/icons-material": "^5.14.3",
-    "@mui/material": "^5.14.4",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/material": "^5.14.10",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -37,6 +37,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
